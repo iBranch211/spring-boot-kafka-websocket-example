@@ -1,0 +1,88 @@
+version: '3.7'
+
+services:
+  app:
+    image: app:${SERVICE_IMAGE_TAG}
+    container_name: app
+    restart: ${RESTART_POLICY}
+    environment:
+      - TZ
+      - SERVER_PORT
+      - API_BASE_PATH
+      - ACTIVE_PROFILE
+      - POSTGRESQL_HOST
+      - POSTGRESQL_PORT
+      - POSTGRESQL_USERNAME
+      - POSTGRESQL_PASSWORD
+      - POSTGRESQL_DATABASE
+      - KAFKA_HOST
+      - KAFKA_PORT
+      - OPENAPI_TITLE
+      - OPENAPI_DESCRIPTION
+      - OPENAPI_VERSION
+      - OPENAPI_TERMS-OF-SERVICE-URL
+      - OPENAPI_LICENCE
+      - OPENAPI_LICENCE_URL
+      - PROBLEM_FIELD_ERRORS_KEY
+      - PROBLEM_MESSAGE_KEY
+      - PROBLEM_PATH_KEY
+      - PROBLEM_VIOLATIONS_KEY
+      - PROBLEM_ERROR_VALIDATION
+      - PROBLEM_BASE_URL
+      - PROBLEM_UNEXPECTED_ERROR_PACKAGE_LIST
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+
+  postgresql:
+    image: bitnami/postgresql:${POSTGRESQL_IMAGE_TAG}
+    container_name: postgresql
+    restart: ${RESTART_POLICY}
+    environment:
+      - TZ
+      - POSTGRESQL_USERNAME
+      - POSTGRESQL_PASSWORD
+      - POSTGRESQL_DATABASE
+    volumes:
+      - ./data/postgresql-data:/bitnami/postgresql:Z
+    ports:
+      - 5432:5432
+
+  zookeeper:
+    image: bitnami/zookeeper:${ZOOKEEPER_IMAGE_TAG}
+    container_name: zookeeper
+    restart: ${RESTART_POLICY}
+    environment:
+      - TZ
+      - ALLOW_ANONYMOUS_LOGIN
+    volumes:
+      - ./data/zookeeper-data:/bitnami/zookeeper:Z
+    ports:
+      - 2181:2181
+
+  kafka:
+    image: bitnami/kafka:${KAFKA_IMAGE_TAG}
+    container_name: kafka
+    restart: ${RESTART_POLICY}
+    environment:
+      - TZ
+      - KAFKA_ZOOKEEPER_CONNECT
+      - KAFKA_BROKER_ID
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+      - KAFKA_ADVERTISED_PORT
+      - KAFKA_ADVERTISED_LISTENERS
+      - ALLOW_PLAINTEXT_LISTENER
+    volumes:
+      - ./data/kafka-data:/bitnami/kafka:Z
+    ports:
+      - 9092:9092
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:${KAFDROP_IMAGE_TAG}
+    container_name: kafkawebui
+    restart: ${RESTART_POLICY}
+    environment:
+      - TZ
+      - KAFKA_BROKERCONNECT
+      - JVM_OPTS
+    ports:
+      - 9000:9000
