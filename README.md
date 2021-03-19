@@ -84,6 +84,7 @@ http://localhost:9000
 * Spring Boot 2.4.3
 * Postgresql
 * H2  
+* Zookeeper  
 * Kafka
 * Kafdrop  
 * Spring Boot Websocket
