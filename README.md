@@ -91,10 +91,10 @@ http://localhost:9000
 * Spring Boot Security
 * Spring Boot Jpa
 * Spring Boot Thymeleaf
+* Thymeleaf Spring Security5
 * Spring Cloud Stream
 * Spring Cloud Stream Kafka Binder
 * Spring Kafka
-* Thymeleaf Spring Security5
 * Content Negotiation Support(Xml,Json,Yaml Support)
 * Spring Boot Log4j2
 * Problem Spring Web
